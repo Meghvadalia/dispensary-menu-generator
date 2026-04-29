@@ -1,0 +1,1831 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* DopeCast Light Mode (secondary) */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 0 0% 59%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    /* DopeCast Custom tokens */
+    --dopecast-black: #000000;
+    --dopecast-card: #111111;
+    --dopecast-border: #222222;
+    --dopecast-input-border: #333333;
+    --dopecast-gray: #9ca3af;
+
+    /* DopeCast Rainbow Gradient */
+    --gradient-rainbow: linear-gradient(90deg, #005cbf, #ff46c4, #fcfc30, #ff8c00, #ffb300, #f9bb00, #ff1b1b);
+    --gradient-hero: linear-gradient(90deg, #005cbf, #ff46c4, #fcfc30, #ff8c00, #ffb300, #f9bb00, #ff1b1b);
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --shadow-elevated: 0 20px 50px -10px rgba(0, 0, 0, 0.8);
+
+    /* Typography - Inter for app UI, Playfair for menus */
+    --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-menu-display: 'Playfair Display', Georgia, serif;
+    --font-menu-body: 'DM Sans', system-ui, sans-serif;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222.2 84% 4.9%;
+    --sidebar-primary: 222.2 47.4% 11.2%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 210 40% 96.1%;
+    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: 222.2 84% 4.9%;
+  }
+
+  /* DopeCast Dark Mode (default for app) */
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 0 0% 59%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+
+    --sidebar-background: 222.2 84% 4.9%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 210 40% 98%;
+    --sidebar-primary-foreground: 222.2 47.4% 11.2%;
+    --sidebar-accent: 217.2 32.6% 17.5%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer utilities {
+  /* DopeCast Rainbow Gradient */
+  .gradient-hero {
+    background: linear-gradient(90deg, #005cbf, #ff46c4, #fcfc30, #ff8c00, #ffb300, #f9bb00, #ff1b1b);
+  }
+
+  .gradient-rainbow {
+    background: linear-gradient(90deg, #005cbf, #ff46c4, #fcfc30, #ff8c00, #ffb300, #f9bb00, #ff1b1b);
+  }
+
+  /* Animated gradient border */
+  .gradient-border {
+    background: linear-gradient(black) padding-box,
+                linear-gradient(90deg, #005cbf, #ff46c4, #fcfc30, #ff8c00, #ffb300, #f9bb00, #ff1b1b) border-box;
+    border: 3px solid transparent;
+    background-size: 200% 200%;
+    animation: gradient-border 3s ease infinite;
+  }
+
+  /* Animated gradient border for Dutchie selection */
+  .animated-gradient-border {
+    position: relative;
+    background: inherit;
+    border: 2px solid transparent;
+  }
+
+  .animated-gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 14px;
+    padding: 3px;
+    background: linear-gradient(90deg, #005cbf, #ff46c4, #fcfc30, #ff8c00, #ffb300, #f9bb00, #ff1b1b);
+    background-size: 300% 300%;
+    animation: gradient-move 3s ease infinite;
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  @keyframes gradient-move {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes gradient-border {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(90deg, #005cbf, #ff46c4, #fcfc30, #ff8c00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* DopeCast Shadows */
+  .shadow-soft {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .shadow-card {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .shadow-elevated {
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8);
+  }
+
+  /* DopeCast Button Styles */
+  .btn-white-invert {
+    background-color: white;
+    color: black;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .btn-white-invert:hover {
+    background-color: black;
+    color: white;
+    border-color: white;
+  }
+
+  .btn-black-invert {
+    background-color: black;
+    color: white;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .btn-black-invert:hover {
+    background-color: white;
+    color: black;
+    border-color: black;
+  }
+
+  /* DopeCast Card Styles */
+  .dopecast-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .dopecast-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* DopeCast Input Styles */
+  .dopecast-input {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    font-size: 15px;
+    color: white;
+    transition: all 0.2s ease;
+  }
+
+  .dopecast-input::placeholder {
+    color: rgba(255, 255, 255, 0.38);
+  }
+
+  .dopecast-input:focus {
+    border-color: rgba(255, 255, 255, 0.38);
+    outline: none;
+  }
+
+  .dopecast-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 6px;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Print styles */
+  @media print {
+    .no-print,
+    nav {
+      display: none !important;
+    }
+
+    /* Hide app header/footer but NOT menu headers */
+    body > header,
+    body > footer,
+    #root > header,
+    #root > footer,
+    .app-header,
+    .app-footer {
+      display: none !important;
+    }
+
+    .print-only {
+      display: block !important;
+    }
+
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    @page {
+      margin: 10mm;
+    }
+
+    body {
+      background: hsl(var(--background)) !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    html, body {
+      height: auto !important;
+      overflow: visible !important;
+    }
+
+    /* Header styling for print - no fixed positioning to avoid empty first page */
+    .print-menu__header {
+      position: relative !important;
+      background: hsl(var(--background)) !important;
+    }
+
+    .print-menu__body {
+      padding-top: 0 !important;
+    }
+
+    .print-menu {
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+
+    .menu-category {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .print-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 0.5rem !important;
+    }
+
+    .print-grid > div {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    main, .container {
+      max-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* If the editor badge exists, hide it in print */
+    [data-testid="lovable-badge"],
+    #lovable-badge,
+    .lovable-badge {
+      display: none !important;
+    }
+  }
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out forwards;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Editable field styles */
+[contenteditable="true"] {
+  cursor: text;
+  border-radius: 2px;
+  transition: background-color 0.2s, outline 0.2s;
+  outline: 1px dashed transparent;
+}
+
+[contenteditable="true"]:hover {
+  background-color: rgba(66, 153, 225, 0.1);
+  outline: 1px dashed rgba(66, 153, 225, 0.5);
+}
+
+[contenteditable="true"]:focus {
+  background-color: rgba(66, 153, 225, 0.15);
+  outline: 2px solid rgba(66, 153, 225, 0.7);
+}
+
+/* Hide editable styling in print */
+@media print {
+  [contenteditable="true"] {
+    outline: none !important;
+    background-color: transparent !important;
+  }
+}
+
+/* Slim Menu Styles */
+.slim-menu {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  background: #ffffff !important;
+  color: #1a1a1a;
+}
+
+.slim-header {
+  background: #ffffff !important;
+}
+
+.slim-columns {
+  column-count: 2;
+  column-gap: 24px;
+}
+
+.slim-category {
+  margin-bottom: 8px;
+  /* Removed page-break-inside: avoid to prevent blank first page */
+}
+
+.slim-category-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 2px;
+}
+
+.slim-divider {
+  flex: 1;
+  height: 1px;
+  background: #333;
+}
+
+.slim-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.slim-item {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  padding: 3px 4px;
+  position: relative;
+  gap: 4px;
+  border-bottom: 1px dotted #ddd;
+}
+
+.slim-item-alt {
+  background-color: #f8f8f8;
+}
+
+.slim-item:last-child {
+  border-bottom: none;
+}
+
+.slim-item-delete {
+  position: absolute;
+  left: -16px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background: #fee2e2;
+  border: none;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #dc2626;
+}
+
+.slim-item:hover .slim-item-delete {
+  opacity: 1;
+}
+
+.slim-item-left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.slim-item-name {
+  font-weight: 600;
+}
+
+.slim-item-brand {
+  color: #666;
+}
+
+.slim-item-right {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  text-align: right;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.slim-item-thc {
+  color: #16a34a;
+  font-size: 9px;
+  margin-right: 4px;
+}
+
+.slim-item-price {
+  font-weight: 700;
+}
+
+.slim-item-weight {
+  color: #666;
+  font-size: 9px;
+}
+
+.slim-footer {
+  text-align: center;
+  font-size: 9px;
+  margin-top: 8px;
+  padding-top: 4px;
+  border-top: 1px solid #333;
+}
+/* Common delete button styles */
+.classic-item-delete,
+.catalog-item-delete,
+.dispensary-item-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background: #fee2e2;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #dc2626;
+  z-index: 10;
+}
+
+.classic-item:hover .classic-item-delete,
+.catalog-item:hover .catalog-item-delete,
+.dispensary-item:hover .dispensary-item-delete {
+  opacity: 1;
+}
+
+.classic-item-delete:hover,
+.catalog-item-delete:hover,
+.dispensary-item-delete:hover {
+  background: #fecaca;
+}
+
+.classic-menu{font-family:Playfair Display}.classic-header-border{border:3px double #333}.classic-title{font-size:32px;text-transform:uppercase}.classic-columns{column-count:2}
+.classic-item{position:relative}
+.catalog-item{position:relative}
+
+/* Dispensary Menu - Creative Cannabis Style */
+.dispensary-menu {
+  font-family: 'DM Sans', sans-serif;
+  max-width: 100%;
+  min-height: 100%;
+  background: #ffffff !important;
+  color: #1a1a1a;
+}
+
+.dispensary-header {
+  padding: 12px 20px;
+  border-bottom: 3px solid var(--primary-color, #1a4d2e);
+  background: #ffffff !important;
+}
+
+.dispensary-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dispensary-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dispensary-logo,
+.dispensary-logo-right {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.dispensary-logo-placeholder {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dispensary-header-text {
+  text-align: left;
+}
+
+.dispensary-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin: 0;
+}
+
+.dispensary-tagline {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: #666;
+  margin: 4px 0 0 0;
+}
+
+.dispensary-body {
+  padding: 12px 20px;
+}
+
+.dispensary-category {
+  margin-bottom: 24px;
+  /* Removed page-break-inside: avoid to prevent blank first page */
+}
+
+.dispensary-category-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+.dispensary-category-line {
+  flex: 1;
+  height: 2px;
+}
+
+.dispensary-category-dot {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.dispensary-category-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.dispensary-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dispensary-item {
+  display: flex;
+  position: relative;
+  padding: 8px 12px;
+  border-bottom: 1px solid #e0ddd5;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.dispensary-item:nth-child(even) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.dispensary-item-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 16px;
+}
+
+.dispensary-item-info {
+  flex: 1;
+}
+
+.dispensary-item-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: #1a1a1a;
+}
+
+.dispensary-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.dispensary-strain {
+  font-weight: 500;
+  color: #444;
+}
+
+.dispensary-thc {
+  color: #16a34a;
+}
+
+.dispensary-cbd {
+  color: #2563eb;
+}
+
+.dispensary-item-price {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.dispensary-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.dispensary-weight {
+  font-size: 12px;
+  color: #666;
+}
+
+.dispensary-wave {
+  margin: 24px 0 16px 0;
+  height: 40px;
+}
+
+.dispensary-wave svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dispensary-footer {
+  padding: 16px 0;
+}
+
+.dispensary-footer-notes {
+  margin-bottom: 16px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+}
+
+.dispensary-notes-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.dispensary-notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dispensary-note-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dispensary-note-bullet {
+  font-size: 12px;
+}
+
+.dispensary-note-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-bottom: 1px dashed #ccc;
+}
+
+.dispensary-note-input:focus {
+  outline: none;
+  border-bottom-color: var(--primary-color, #1a4d2e);
+}
+
+.dispensary-note-remove {
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 4px;
+  opacity: 0.6;
+}
+
+.dispensary-note-remove:hover {
+  opacity: 1;
+}
+
+.dispensary-add-note {
+  background: none;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 0;
+  text-align: left;
+}
+
+.dispensary-add-note:hover {
+  text-decoration: underline;
+}
+
+.dispensary-footer-info {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  border-top: 1px solid #ddd;
+  padding-top: 12px;
+}
+
+.dispensary-footer-info p {
+  margin: 4px 0;
+}
+
+.dispensary-date {
+  font-size: 11px;
+  color: #999;
+}
+
+@media print {
+  .dispensary-note-input {
+    border-bottom: none;
+  }
+
+  .dispensary-footer-notes {
+    background: transparent;
+  }
+
+  /* CRITICAL: Compact print styles for dispensary - content must start on page 1 */
+  .dispensary-menu {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  .dispensary-header {
+    padding: 4px 12px !important;
+    margin: 0 !important;
+  }
+  
+  .dispensary-logo,
+  .dispensary-logo-right {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  
+  .dispensary-logo-placeholder {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  
+  .dispensary-title {
+    font-size: 20px !important;
+    letter-spacing: 1px !important;
+  }
+  
+  .dispensary-tagline {
+    font-size: 10px !important;
+    margin: 0 !important;
+  }
+  
+  .dispensary-body {
+    padding: 4px 12px !important;
+  }
+  
+  .dispensary-category {
+    margin-bottom: 8px !important;
+  }
+  
+  .dispensary-category-header {
+    margin-bottom: 4px !important;
+  }
+  
+  .dispensary-category-title {
+    font-size: 14px !important;
+  }
+
+  /* CRITICAL: Compact print styles for catalog - content must start on page 1 */
+  .catalog-menu {
+    padding: 8px !important;
+  }
+  
+  .catalog-header {
+    margin-bottom: 4px !important;
+  }
+  
+  .catalog-header-content {
+    margin-bottom: 4px !important;
+    gap: 8px !important;
+  }
+  
+  .catalog-logo {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  
+  .catalog-title {
+    font-size: 18px !important;
+  }
+  
+  .catalog-subtitle {
+    font-size: 10px !important;
+    margin: 0 !important;
+  }
+  
+  .catalog-header-line {
+    margin-top: 4px !important;
+    height: 2px !important;
+  }
+  
+  .catalog-body {
+    gap: 8px !important;
+  }
+  
+  .catalog-category {
+    margin-bottom: 4px !important;
+  }
+  
+  .catalog-category-header {
+    margin-bottom: 6px !important;
+    gap: 8px !important;
+  }
+  
+  .catalog-category-title {
+    font-size: 14px !important;
+  }
+  
+  .catalog-item {
+    padding: 6px !important;
+  }
+
+  /* Ensure all menu backgrounds are white for print */
+  .slim-menu,
+  .slim-rows-menu,
+  .dispensary-menu,
+  .catalog-menu,
+  .slim-header,
+  .slim-rows-header,
+  .dispensary-header,
+  .catalog-header {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+  }
+}
+
+/* Catalog Menu - Full width categories */
+.catalog-menu {
+  font-family: 'DM Sans', sans-serif;
+  max-width: 100%;
+  padding: 20px;
+  background: #ffffff !important;
+  color: #1a1a1a;
+}
+
+.catalog-header {
+  text-align: center;
+  margin-bottom: 12px;
+  background: #ffffff !important;
+}
+
+.catalog-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.catalog-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.catalog-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.catalog-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 4px 0 0 0;
+}
+
+.catalog-header-line {
+  height: 3px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.catalog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.catalog-category {
+  width: 100%;
+  /* Removed page-break-inside: avoid to prevent blank first page */
+}
+
+.catalog-category-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+.catalog-category-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.catalog-category-line {
+  flex: 1;
+  height: 2px;
+}
+
+.catalog-items-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 24px;
+}
+
+.catalog-item {
+  padding: 12px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #fafafa;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.catalog-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.catalog-item-name {
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+  flex: 1;
+  color: #1a1a1a;
+}
+
+.catalog-item-price {
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.catalog-item-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.catalog-detail {
+  display: inline;
+}
+
+.catalog-detail:not(:last-child)::after {
+  content: " | ";
+  color: #ccc;
+}
+
+.catalog-strain {
+  font-style: italic;
+}
+
+.catalog-item-lab {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.catalog-thc {
+  color: #16a34a;
+}
+
+.catalog-cbd {
+  color: #2563eb;
+}
+
+.catalog-footer {
+  text-align: center;
+  font-size: 11px;
+  color: #888;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Catalog Fixed Menu - Same as Catalog but without page-break-inside on categories */
+.catalog-fixed-menu {
+  font-family: 'DM Sans', sans-serif;
+  max-width: 100%;
+  padding: 20px;
+}
+
+.catalog-fixed-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.catalog-fixed-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.catalog-fixed-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.catalog-fixed-header-text {
+  text-align: left;
+}
+
+.catalog-fixed-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.catalog-fixed-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 4px 0 0 0;
+}
+
+.catalog-fixed-header-line {
+  height: 3px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.catalog-fixed-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* NO page-break-inside: avoid here - this is the fix! */
+.catalog-fixed-category {
+  width: 100%;
+}
+
+.catalog-fixed-category-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+.catalog-fixed-category-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.catalog-fixed-category-line {
+  flex: 1;
+  height: 2px;
+}
+
+.catalog-fixed-items-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 24px;
+}
+
+.catalog-fixed-item {
+  padding: 12px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #fafafa;
+  position: relative;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.catalog-fixed-item-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: #dc2626;
+  transition: all 0.2s;
+}
+
+.catalog-fixed-item:hover .catalog-fixed-item-delete {
+  display: flex;
+}
+
+.catalog-fixed-item-delete:hover {
+  background: rgba(255, 0, 0, 0.2);
+}
+
+.catalog-fixed-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.catalog-fixed-item-name {
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+  flex: 1;
+}
+
+.catalog-fixed-item-price {
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.catalog-fixed-item-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.catalog-fixed-detail {
+  display: inline;
+}
+
+.catalog-fixed-detail:not(:last-child)::after {
+  content: " • ";
+  color: #ccc;
+}
+
+.catalog-fixed-strain {
+  font-style: italic;
+}
+
+.catalog-fixed-item-lab {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.catalog-fixed-thc {
+  color: #16a34a;
+}
+
+.catalog-fixed-cbd {
+  color: #2563eb;
+}
+
+.catalog-fixed-footer {
+  text-align: center;
+  font-size: 11px;
+  color: #888;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Slim Rows Menu - Row-by-row grid layout */
+.slim-rows-menu {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  max-width: 100%;
+  background: #ffffff !important;
+  color: #1a1a1a;
+}
+
+.slim-rows-header {
+  padding: 12px 16px;
+  border-bottom: 2px solid #333;
+  margin-bottom: 12px;
+  background: #ffffff !important;
+}
+
+.slim-rows-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.slim-rows-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.slim-rows-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  flex: 1;
+  margin: 0;
+}
+
+/* Strain Type Legend */
+.slim-rows-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 6px;
+  font-size: 10px;
+}
+
+.slim-rows-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #333;
+}
+
+.slim-rows-legend-item svg {
+  flex-shrink: 0;
+}
+
+.slim-rows-date {
+  text-align: center;
+  font-size: 10px;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* Strain Leaf Icon in Items */
+.slim-rows-strain-leaf {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+
+.slim-rows-body {
+  padding: 0 12px;
+}
+
+.slim-rows-category {
+  margin-bottom: 10px;
+}
+
+.slim-rows-category-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.slim-rows-category-line {
+  flex: 1;
+  height: 2px;
+}
+
+.slim-rows-category-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.slim-rows-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+}
+
+.slim-rows-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  padding: 2px 6px;
+  position: relative;
+  gap: 4px;
+  border-bottom: 1px dotted #ddd;
+  border-right: 1px dotted #ddd;
+}
+
+.slim-rows-item:nth-child(2n) {
+  border-right: none;
+}
+
+.slim-rows-item-alt {
+  background-color: #f8f8f8;
+}
+
+.slim-rows-item-delete {
+  position: absolute;
+  left: -12px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background: #fee2e2;
+  border: none;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #dc2626;
+}
+
+.slim-rows-item:hover .slim-rows-item-delete {
+  opacity: 1;
+}
+
+.slim-rows-item-left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.slim-rows-item-name {
+  font-weight: 600;
+}
+
+.slim-rows-item-brand {
+  color: #666;
+  font-size: 9px;
+}
+
+.slim-rows-item-right {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  text-align: right;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.slim-rows-item-thc {
+  color: #16a34a;
+  font-size: 9px;
+  margin-right: 4px;
+}
+
+.slim-rows-item-price {
+  font-weight: 700;
+}
+
+.slim-rows-item-weight {
+  color: #666;
+  font-size: 9px;
+}
+
+.slim-rows-footer {
+  text-align: center;
+  font-size: 9px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid #333;
+  color: #666;
+}
+
+/* Print fixes - prevent category name cutoff and blank first page */
+@media print {
+  @page { margin: 0 }
+  .no-print { display: none !important }
+  [class*=lovable] { display: none !important }
+
+  /* CRITICAL: Fix blank first page by resetting all potential causes */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  body > div:first-child {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+  }
+
+  #root, [id^="root"] {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  /* Reset the parent container that wraps the menu */
+  .space-y-4 {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .space-y-4 > *:not(.print-menu) {
+    display: none !important;
+  }
+
+  .print-menu {
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+
+  /* All menu headers - no top margin */
+  .slim-rows-header,
+  .catalog-fixed-header,
+  .dispensary-header,
+  .catalog-header,
+  .slim-header {
+    margin-top: 0 !important;
+    padding-top: 2px !important;
+  }
+
+  /* DO NOT prevent page breaks inside categories - let content flow naturally */
+  /* Only keep category headers with their first items */
+  .catalog-category-header,
+  .slim-rows-category-header,
+  .dispensary-category-header {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* Keep individual items together (they're small enough) */
+  .catalog-item,
+  .catalog-fixed-item,
+  .slim-item,
+  .slim-rows-item,
+  .dispensary-item {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Manual page break class */
+  .page-break-before {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+
+  /* Catalog specific print styles */
+  .catalog-menu {
+    padding: 10px !important;
+  }
+
+  .catalog-items-grid {
+    gap: 8px 16px;
+  }
+
+  .catalog-item {
+    padding: 8px;
+  }
+
+  /* CRITICAL: Compact print styles for slim-rows - content must start on page 1 */
+  .slim-rows-menu {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .slim-rows-header {
+    padding: 2px 8px !important;
+    margin: 0 0 2px 0 !important;
+  }
+
+  .slim-rows-logo {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .slim-rows-title {
+    font-size: 16px !important;
+    letter-spacing: 1px !important;
+  }
+
+  .slim-rows-legend {
+    margin-top: 2px !important;
+    gap: 8px !important;
+    font-size: 8px !important;
+  }
+
+  .slim-rows-date {
+    font-size: 8px !important;
+    margin-top: 2px !important;
+  }
+
+  .slim-rows-body {
+    padding: 0 8px !important;
+  }
+
+  .slim-rows-category {
+    margin-bottom: 6px !important;
+  }
+
+  .slim-rows-category-header {
+    margin-bottom: 2px !important;
+  }
+
+  .slim-rows-category-title {
+    font-size: 12px !important;
+  }
+
+  .slim-rows-item {
+    padding: 2px 6px !important;
+    border-right-color: #ccc;
+    border-bottom-color: #ccc;
+  }
+
+  .slim-rows-footer {
+    margin-top: 6px !important;
+    font-size: 8px !important;
+  }
+
+  /* CRITICAL: Compact print styles for catalog-fixed - content must start on page 1 */
+  .catalog-fixed-menu {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .catalog-fixed-header {
+    margin-bottom: 2px !important;
+    padding: 0 8px !important;
+  }
+
+  .catalog-fixed-header-content {
+    margin-bottom: 2px !important;
+    gap: 6px !important;
+  }
+
+  .catalog-fixed-logo {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .catalog-fixed-title {
+    font-size: 18px !important;
+  }
+
+  .catalog-fixed-subtitle {
+    font-size: 10px !important;
+    margin: 0 !important;
+  }
+
+  .catalog-fixed-header-line {
+    margin-top: 4px !important;
+    height: 2px !important;
+  }
+
+  .catalog-fixed-body {
+    padding: 0 8px !important;
+    gap: 8px !important;
+  }
+
+  .catalog-fixed-category {
+    margin-bottom: 4px !important;
+  }
+
+  .catalog-fixed-category-header {
+    margin-bottom: 4px !important;
+    gap: 8px !important;
+  }
+
+  .catalog-fixed-category-title {
+    font-size: 14px !important;
+  }
+
+  .catalog-fixed-items-grid {
+    gap: 6px 12px !important;
+  }
+
+  .catalog-fixed-item {
+    padding: 6px !important;
+  }
+
+  .catalog-fixed-footer {
+    margin-top: 6px !important;
+    font-size: 10px !important;
+  }
+
+  /* Dispensary print - reduce spacing */
+  .dispensary-category {
+    margin-bottom: 16px !important;
+  }
+
+  .dispensary-category-header {
+    margin-bottom: 8px !important;
+  }
+
+  .dispensary-item {
+    padding: 4px 8px !important;
+  }
+
+  .dispensary-body {
+    padding: 12px !important;
+  }
+}
