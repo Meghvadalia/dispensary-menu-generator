@@ -12,19 +12,7 @@ Generate beautiful, print-ready dispensary menus directly from your Dutchie POS 
 
 ## Demo
 
-<!-- TODO: Add a real screenshot or GIF here once you've recorded one. See "Adding screenshots & GIFs" below. -->
-
-```
-┌──────────────────────────────────────────────────────────┐
-│  Step 1 → Step 2 → Step 3 → Step 4                       │
-│  Pick POS  Connect  Customize  Generate                  │
-│                                                          │
-│  Pick a style:  Slim · Slim Rows · Catalog · Dispensary  │
-│  Click any item to edit price, name, description         │
-│  Drag categories to reorder · Sort by price/THC/brand    │
-│  Print or save as PDF                                    │
-└──────────────────────────────────────────────────────────┘
-```
+<!-- Demo video coming soon -->
 
 ---
 
@@ -170,68 +158,6 @@ Add a 6th by copying any of those files and registering it in `src/components/Me
 1. Add an entry to the array in `src/components/POSSelector.tsx` (id, display name, logo URL)
 2. Add a matching auth + inventory route pair in `server/index.js` (e.g. `POST /api/treez/auth`)
 3. Branch on `selectedPOS` in `src/components/MenuGenerator.tsx` to call the right endpoint
-
----
-
-## Adding screenshots & GIFs to this README
-
-Screenshots and GIFs make a README *much* more compelling. Two ways to add them:
-
-### Option 1 — commit the file to the repo (recommended)
-
-```bash
-mkdir -p docs
-# Drop your screenshot.png or demo.gif into docs/
-git add docs/screenshot.png
-git commit -m "docs: add screenshot"
-git push
-```
-
-Reference it in this README with a relative path:
-
-```markdown
-![Dispensary Menu Generator screenshot](docs/screenshot.png)
-```
-
-✅ Pros: image lives with the code, works offline, survives forks
-❌ Cons: bloats the repo if you push huge GIFs (keep under ~5 MB)
-
-### Option 2 — use GitHub's CDN (no commit required)
-
-1. Go to <https://github.com/Meghvadalia/dispensary-menu-generator/issues/new> *(or any PR / issue / comment box)*
-2. **Drag and drop** your image or GIF into the comment textarea
-3. GitHub uploads it to `user-images.githubusercontent.com/...` and inserts the markdown link
-4. **Copy that markdown link** out of the textarea — then **close the tab without submitting the issue**
-5. Paste the link into this README and push
-
-```markdown
-![Demo](https://user-images.githubusercontent.com/123456/abcdef-1234.gif)
-```
-
-✅ Pros: zero repo bloat, fast to update
-❌ Cons: relies on GitHub's CDN; if the repo is ever migrated, links could break
-
-### Recording a GIF
-
-| OS         | Tool                                                       |
-|------------|------------------------------------------------------------|
-| Windows    | [ScreenToGif](https://www.screentogif.com/) (free, great)  |
-| macOS      | [Kap](https://getkap.co/) or [Gifski](https://gif.ski/)    |
-| Any        | [Loom](https://www.loom.com/) — records video, exports GIF |
-
-Aim for **5 seconds, ~720p, under 5 MB** so the README stays fast to load.
-
-### Where to put the demo in this README
-
-Replace the ASCII box in the **Demo** section near the top:
-
-```markdown
-## Demo
-
-![Dispensary Menu Generator demo](docs/demo.gif)
-```
-
-That's all that's needed.
 
 ---
 
