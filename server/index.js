@@ -137,9 +137,9 @@ app.post("/api/flowhub/menu", async (req, res) => {
         .json({ error: "Failed to fetch inventory", details });
     }
     const body = await r.json();
-    const data = Array.isArray(body?.data) ? body.data : [];
+    const data = (Array.isArray(body?.data) ? body.data : []).filter(Boolean);
     const filtered = data.filter(
-      (i) => i?.locationId === locationId && (i?.quantity ?? 0) > 0,
+      (i) => i.locationId === locationId && (i.quantity ?? 0) > 0,
     );
     const menu = filtered.map(normalizeFlowhubItem);
     return res.json({ menu });

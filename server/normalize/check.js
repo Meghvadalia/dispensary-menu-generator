@@ -111,6 +111,11 @@ function assertMenuItem(item, label) {
   assert.equal(items[3].price, 60);
   assert.equal(items[3].imageUrl, undefined);
 
+  // Golden: row 4 — bad price coerces to 0 (NaN-safe), confirms isFiniteNonNeg in assertMenuItem
+  assert.equal(items[4].id, 'v-bad-price');
+  assert.equal(items[4].price, 0);
+  assert.equal(items[4].thc, '50%');
+
   console.log(`✓ flowhub: ${items.length} rows passed`);
 }
 

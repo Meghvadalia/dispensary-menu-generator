@@ -78,5 +78,24 @@
     "postTaxPriceInPennies": 6000,
     "quantity": 30,
     "locationId": "loc-1"
+  },
+  {
+    "brand": "Test Brand",
+    "cannabinoidInformation": [
+      { "name": "thc", "lowerRange": 50, "upperRange": 50, "unitOfMeasure": "%", "unitOfMeasureToGramsMultiplier": null }
+    ],
+    "category": "Concentrates",
+    "speciesName": null,
+    "productId": "p-bad-price",
+    "variantId": "v-bad-price",
+    "productName": "Malformed Price Item",
+    "productDescription": "Tests NaN-safe price coercion.",
+    "productPictureURL": null,
+    "productUnitOfMeasure": "grams",
+    "productWeight": 1,
+    "priceInMinorUnits": null,
+    "postTaxPriceInPennies": "not-a-number",
+    "quantity": 5,
+    "locationId": "loc-1"
   }
 ]

@@ -67,7 +67,8 @@ export function normalizeFlowhubItem(raw) {
   const cbd = formatCannabinoid(raw.cannabinoidInformation, 'cbd', isCountable);
 
   const cents = raw.postTaxPriceInPennies ?? raw.priceInMinorUnits ?? 0;
-  const price = Number(cents) / 100;
+  const priceRaw = Number(cents);
+  const price = Number.isFinite(priceRaw) ? priceRaw / 100 : 0;
 
   const weight = formatWeight(raw.productWeight, raw.productUnitOfMeasure);
   const description = raw.productDescription ? String(raw.productDescription) : undefined;
