@@ -65,11 +65,18 @@ export function ConnectAccount({ posId, posName, onConnected, isDark = false }: 
     setIsLoading(true);
     try {
       if (config.flow === "dutchie-auth") {
-        const r = await fetch("/api/dutchie/auth", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ apiKey: values.apiKey.trim() }),
-        });
+        let r: Response;
+        try {
+          r = await fetch("/api/dutchie/auth", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ apiKey: values.apiKey.trim() }),
+          });
+        } catch (networkErr) {
+          console.error("Network error:", networkErr);
+          toast.error("Couldn't reach Dutchie. Check your connection.");
+          return;
+        }
         const data = await r.json().catch(() => ({}));
         if (!r.ok || !data?.authCode) {
           throw new Error(data?.error || `Request failed (${r.status})`);
@@ -78,14 +85,21 @@ export function ConnectAccount({ posId, posName, onConnected, isDark = false }: 
         toast.success(`Successfully authenticated with ${posName}!`);
         onConnected({ pos: "dutchie", authCode: data.authCode });
       } else if (config.flow === "flowhub-location-picker") {
-        const r = await fetch("/api/flowhub/locations", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            clientId: values.clientId.trim(),
-            apiKey: values.apiKey.trim(),
-          }),
-        });
+        let r: Response;
+        try {
+          r = await fetch("/api/flowhub/locations", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              clientId: values.clientId.trim(),
+              apiKey: values.apiKey.trim(),
+            }),
+          });
+        } catch (networkErr) {
+          console.error("Network error:", networkErr);
+          toast.error("Couldn't reach Flowhub. Check your connection.");
+          return;
+        }
         const data = await r.json().catch(() => ({}));
         if (!r.ok) {
           throw new Error(data?.error || `Request failed (${r.status})`);
@@ -93,6 +107,19 @@ export function ConnectAccount({ posId, posName, onConnected, isDark = false }: 
         const list: FlowhubLocation[] = Array.isArray(data?.locations) ? data.locations : [];
         if (list.length === 0) {
           toast.error("No locations found for this client. Confirm your Client ID with Flowhub support.");
+          return;
+        }
+        if (list.length === 1) {
+          const loc = list[0];
+          setStage("connected");
+          toast.success(`Connected to ${loc.locationName}.`);
+          onConnected({
+            pos: "flowhub",
+            clientId: values.clientId.trim(),
+            apiKey: values.apiKey.trim(),
+            locationId: loc.locationId,
+            locationName: loc.locationName,
+          });
           return;
         }
         setLocations(list);
@@ -219,7 +246,13 @@ export function ConnectAccount({ posId, posName, onConnected, isDark = false }: 
         </p>
       </div>
 
-      <div className="space-y-4">
+      <form
+        className="space-y-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      >
         {config.fields.map((field) => (
           <div key={field.key} className="space-y-2">
             <label htmlFor={field.key} className={labelCls}>
@@ -254,7 +287,7 @@ export function ConnectAccount({ posId, posName, onConnected, isDark = false }: 
         </p>
 
         <button
-          onClick={handleSubmit}
+          type="submit"
           disabled={isLoading || !allFilled}
           className={`${buttonBase} ${isLoading || !allFilled ? buttonDisabled : buttonEnabled}`}
         >
@@ -267,7 +300,7 @@ export function ConnectAccount({ posId, posName, onConnected, isDark = false }: 
             "Connect"
           )}
         </button>
-      </div>
+      </form>
     </div>
   );
 }
