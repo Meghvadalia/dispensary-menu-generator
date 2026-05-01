@@ -1,0 +1,47 @@
+[
+  {
+    "inventoryId": "inv-001",
+    "productId": "prod-001",
+    "productName": "Blue Dream 3.5g",
+    "category": "Flower",
+    "masterCategory": "Flower",
+    "brandName": "Premium Gardens",
+    "vendor": null,
+    "strainType": "Hybrid",
+    "strain": "Blue Dream",
+    "labResults": [
+      { "labTest": "THC", "value": 22.4, "labResultUnit": "Percent" },
+      { "labTest": "CBD", "value": 0.1, "labResultUnit": "Percent" }
+    ],
+    "unitPrice": 45,
+    "recUnitPrice": 45,
+    "unitWeight": 3.5,
+    "unitWeightUnit": "g",
+    "description": "Sweet berry aroma."
+  },
+  {
+    "inventoryId": "inv-002",
+    "productId": "prod-002",
+    "productName": "Indica Gummies 10pk",
+    "category": "Edibles",
+    "brandName": null,
+    "vendor": "Sweet Relief",
+    "strainType": null,
+    "strain": "No Strain",
+    "labResults": [
+      { "labTest": "THC", "value": 100, "labResultUnit": "Milligrams" },
+      { "labTest": "CBD", "value": 0, "labResultUnit": "Milligrams" }
+    ],
+    "unitPrice": 25,
+    "unitWeight": null,
+    "unitWeightUnit": null,
+    "description": "Nighttime gummies."
+  },
+  {
+    "productId": "prod-003",
+    "productName": "Generic Item",
+    "masterCategory": "Other",
+    "labResults": null,
+    "recUnitPrice": 10
+  }
+]
