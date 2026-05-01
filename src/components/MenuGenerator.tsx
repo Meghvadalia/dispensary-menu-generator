@@ -9,22 +9,12 @@ import { SortingOptions, SortCriterion } from "./SortingOptions";
 import { HeadingOptions } from "./HeadingOptions";
 import { FeatureInfo } from "./FeatureInfo";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-
-interface MenuItem {
-  id: string;
-  name: string;
-  category: string;
-  brand?: string;
-  strain?: string;
-  thc?: string;
-  cbd?: string;
-  price: number;
-  weight?: string;
-  description?: string;
-}
+import type { Connection } from "@/types/connection";
+import { POS_LABELS } from "@/types/connection";
+import type { MenuItem } from "@/types/menu";
 
 interface MenuGeneratorProps {
-  authCode: string;
+  connection: Connection;
   logo?: string | null;
   brandColors?: string[];
   storeName?: string;
@@ -177,7 +167,7 @@ const demoMenuData: MenuItem[] = [
 ];
 
 export function MenuGenerator({
-  authCode,
+  connection,
   logo,
   brandColors = [],
   storeName = "Cannabis Menu",
@@ -269,70 +259,59 @@ export function MenuGenerator({
     setIsLoading(true);
     setErrorMessage(null);
 
+    const url =
+      connection.pos === "dutchie" ? "/api/dutchie/menu" : "/api/flowhub/menu";
+    const body =
+      connection.pos === "dutchie"
+        ? { authCode: connection.authCode }
+        : {
+            clientId: connection.clientId,
+            apiKey: connection.apiKey,
+            locationId: connection.locationId,
+          };
+
     try {
-      const response = await fetch("/api/dutchie/menu", {
+      const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ authCode }),
+        body: JSON.stringify(body),
       });
 
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         if (response.status === 401) {
-          toast.error("Invalid API key. Please reconnect with a valid Dutchie key.");
+          toast.error(`Invalid credentials. Please reconnect to ${POS_LABELS[connection.pos]}.`);
           onAuthInvalid?.();
           return;
         }
-
         console.error("Menu fetch error:", data);
         setErrorMessage("Could not load your inventory. Please try again.");
         toast.error("Failed to load inventory.");
         return;
       }
 
-      if (!data?.menu || !Array.isArray(data.menu)) {
+      if (!Array.isArray(data?.menu)) {
         setErrorMessage("No inventory returned.");
         toast.error("No inventory returned.");
         return;
       }
 
-      const items: MenuItem[] = data.menu.map((item: any) => {
-        let thcValue = "";
-        let cbdValue = "";
-        if (item.labResults && Array.isArray(item.labResults)) {
-          const thcResult = item.labResults.find((r: any) => r.labTest === "THC");
-          const cbdResult = item.labResults.find((r: any) => r.labTest === "CBD");
-          if (thcResult) {
-            thcValue = thcResult.labResultUnit === "Milligrams" ? `${thcResult.value}mg` : `${thcResult.value}%`;
-          }
-          if (cbdResult) {
-            cbdValue = cbdResult.labResultUnit === "Milligrams" ? `${cbdResult.value}mg` : `${cbdResult.value}%`;
-          }
-        }
+      const items: MenuItem[] = data.menu;
 
-        const strainType = item.strainType || (item.strain !== "No Strain" ? item.strain : undefined);
+      if (items.length === 0) {
+        const where =
+          connection.pos === "flowhub" ? ` at ${connection.locationName}` : "";
+        setErrorMessage(`No in-stock items${where}.`);
+        toast.error("Inventory is empty.");
+        return;
+      }
 
-        return {
-          id: String(item.inventoryId || item.productId),
-          name: item.productName || "Unknown Product",
-          category: item.category || item.masterCategory || "Other",
-          brand: item.brandName || item.vendor,
-          strain: strainType,
-          thc: thcValue,
-          cbd: cbdValue,
-          price: item.unitPrice || item.recUnitPrice || 0,
-          weight: item.unitWeight ? `${item.unitWeight}${item.unitWeightUnit || "g"}` : undefined,
-          description: item.description,
-        };
-      });
-
-      // Merge saved preferences with fresh categories
+      // Merge saved preferences with fresh categories (logic unchanged)
       const freshCategories = Array.from(new Set(items.map((item) => item.category)));
 
       setCategoryOrder((savedOrder) => {
         if (savedOrder.length === 0) return freshCategories;
-        // Keep saved order for categories that still exist, append new ones
         const kept = savedOrder.filter((cat) => freshCategories.includes(cat));
         const newOnes = freshCategories.filter((cat) => !savedOrder.includes(cat));
         return [...kept, ...newOnes];
@@ -340,9 +319,10 @@ export function MenuGenerator({
 
       setVisibleCategories((savedVisible) => {
         if (savedVisible.size === 0) return new Set(freshCategories);
-        // Keep saved visibility, add new categories as visible by default
         const result = new Set<string>();
-        const savedOrder = JSON.parse(localStorage.getItem("menu-master:category-order") || "[]") as string[];
+        const savedOrder = JSON.parse(
+          localStorage.getItem("menu-master:category-order") || "[]",
+        ) as string[];
         freshCategories.forEach((cat) => {
           const isNewCategory = !savedOrder.includes(cat);
           if (savedVisible.has(cat) || isNewCategory) {
@@ -538,7 +518,7 @@ export function MenuGenerator({
       <div className="text-center">
         <h3 className={`text-3xl font-bold mb-2 ${isDark ? "text-white" : "text-gray-900"}`}>Generate Your Menu</h3>
         <p className={`text-base max-w-md mx-auto ${isDark ? "text-gray-400" : "text-gray-500"}`}>
-          Create a beautiful, printable menu from your Dutchie inventory
+          Create a beautiful, printable menu from your {POS_LABELS[connection.pos]} inventory
         </p>
       </div>
 
