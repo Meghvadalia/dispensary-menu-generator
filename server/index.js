@@ -8,6 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const DUTCHIE_BASE = "https://api.pos.dutchie.com";
+const FLOWHUB_BASE = "https://api.flowhub.co";
 
 const app = express();
 app.disable("x-powered-by");
@@ -66,6 +67,44 @@ app.post("/api/dutchie/menu", async (req, res) => {
     const rawArray = Array.isArray(raw) ? raw : [];
     const menu = rawArray.filter(Boolean).map(normalizeDutchieItem);
     return res.json({ menu });
+  } catch (e) {
+    return res.status(502).json({ error: "Network error", details: e?.message });
+  }
+});
+
+// POST /api/flowhub/locations  { clientId, apiKey } -> { locations }
+app.post("/api/flowhub/locations", async (req, res) => {
+  const clientId = String(req.body?.clientId || "").trim();
+  const apiKey = String(req.body?.apiKey || "").trim();
+  if (!clientId || !apiKey) {
+    return res.status(400).json({ error: "Missing clientId or apiKey" });
+  }
+
+  try {
+    const r = await fetch(`${FLOWHUB_BASE}/v0/clientsLocations`, {
+      method: "GET",
+      headers: { clientId, key: apiKey, Accept: "application/json" },
+    });
+    if (r.status === 401) {
+      return res.status(401).json({ error: "Invalid Flowhub credentials" });
+    }
+    if (!r.ok) {
+      const details = await r.text().catch(() => "");
+      return res
+        .status(r.status)
+        .json({ error: "Failed to fetch locations", details });
+    }
+    const body = await r.json();
+    const data = Array.isArray(body?.data) ? body.data : [];
+    const locations = data.map((loc) => ({
+      locationId: loc.locationId,
+      locationName: loc.locationName,
+      address: {
+        city: loc.address?.city ?? null,
+        state: loc.address?.state ?? null,
+      },
+    }));
+    return res.json({ locations });
   } catch (e) {
     return res.status(502).json({ error: "Network error", details: e?.message });
   }
