@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 import { normalizeDutchieItem } from './dutchie.js';
+import { normalizeFlowhubItem } from './flowhub.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -63,6 +64,44 @@ function assertMenuItem(item, label) {
   assert.equal(items[2].price, 10);
 
   console.log(`✓ dutchie: ${items.length} rows passed`);
+}
+
+// --- Flowhub ---
+{
+  const fixture = readFixture('flowhub-inventory-nonzero.json');
+  const items = fixture.map(normalizeFlowhubItem);
+
+  items.forEach((it, i) => assertMenuItem(it, `flowhub[${i}]`));
+
+  // Golden: row 0 — flower, range cannabinoids, speciesName mapping, image present
+  assert.equal(items[0].id, 'v-flower');
+  assert.equal(items[0].name, 'Blue Dream 3.5g');
+  assert.equal(items[0].category, 'Flower');
+  assert.equal(items[0].brand, 'Premium Gardens');
+  assert.equal(items[0].strain, 'Sativa-dominant');
+  assert.equal(items[0].thc, '22-24%');
+  assert.equal(items[0].cbd, '0.1%');
+  assert.equal(items[0].price, 45);
+  assert.equal(items[0].weight, '3.5g');
+  assert.equal(items[0].imageUrl, 'https://example.com/blue-dream.jpg');
+
+  // Golden: row 1 — dual-unit vape, UOM=grams → prefer %, no image
+  assert.equal(items[1].id, 'v-vape');
+  assert.equal(items[1].thc, '72%');
+  assert.equal(items[1].weight, '1g');
+  assert.equal(items[1].strain, undefined);
+  assert.equal(items[1].imageUrl, undefined);
+
+  // Golden: row 2 — edible, UOM=each → prefer mg (only mg present), '50/50' → 'Hybrid', weight '1pk' suppressed because value=1
+  assert.equal(items[2].id, 'v-edible');
+  assert.equal(items[2].thc, '100mg');
+  assert.equal(items[2].cbd, undefined);
+  assert.equal(items[2].strain, 'Hybrid');
+  assert.equal(items[2].weight, undefined);
+  assert.equal(items[2].imageUrl, 'https://example.com/gummies.jpg');
+  assert.equal(items[2].price, 10);
+
+  console.log(`✓ flowhub: ${items.length} rows passed`);
 }
 
 console.log('All normalizer checks passed.');

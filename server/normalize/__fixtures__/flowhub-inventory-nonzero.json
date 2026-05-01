@@ -1,0 +1,62 @@
+[
+  {
+    "brand": "Premium Gardens",
+    "cannabinoidInformation": [
+      { "name": "thc", "lowerRange": 22, "upperRange": 24, "unitOfMeasure": "%", "unitOfMeasureToGramsMultiplier": null },
+      { "name": "cbd", "lowerRange": 0.1, "upperRange": 0.1, "unitOfMeasure": "%", "unitOfMeasureToGramsMultiplier": null }
+    ],
+    "category": "Flower",
+    "speciesName": "Sativa-dom",
+    "productId": "p-flower",
+    "variantId": "v-flower",
+    "productName": "Blue Dream 3.5g",
+    "productDescription": "Sweet berry aroma.",
+    "productPictureURL": "https://example.com/blue-dream.jpg",
+    "productUnitOfMeasure": "grams",
+    "productWeight": 3.5,
+    "priceInMinorUnits": 4500,
+    "preTaxPriceInPennies": 4000,
+    "postTaxPriceInPennies": 4500,
+    "quantity": 12,
+    "locationId": "loc-1"
+  },
+  {
+    "brand": "Cloud Nine",
+    "cannabinoidInformation": [
+      { "name": "thc", "lowerRange": 720, "upperRange": 720, "unitOfMeasure": "mg", "unitOfMeasureToGramsMultiplier": "1000" },
+      { "name": "thc", "lowerRange": 72, "upperRange": 72, "unitOfMeasure": "%", "unitOfMeasureToGramsMultiplier": null }
+    ],
+    "category": "Vapes",
+    "speciesName": null,
+    "productId": "p-vape",
+    "variantId": "v-vape",
+    "productName": "Super Lemon Sauce Cart 1g",
+    "productDescription": "",
+    "productPictureURL": null,
+    "productUnitOfMeasure": "grams",
+    "productWeight": 1,
+    "priceInMinorUnits": 4200,
+    "postTaxPriceInPennies": 4200,
+    "quantity": 5,
+    "locationId": "loc-1"
+  },
+  {
+    "brand": "Sweet Relief",
+    "cannabinoidInformation": [
+      { "name": "thc", "lowerRange": 100, "upperRange": 100, "unitOfMeasure": "mg", "unitOfMeasureToGramsMultiplier": "1000" }
+    ],
+    "category": "Edibles",
+    "speciesName": "50/50",
+    "productId": "p-edible",
+    "variantId": "v-edible",
+    "productName": "Chewy Gummies 100mg",
+    "productDescription": "Berry-flavored.",
+    "productPictureURL": "https://example.com/gummies.jpg",
+    "productUnitOfMeasure": "each",
+    "productWeight": 1,
+    "priceInMinorUnits": 1000,
+    "postTaxPriceInPennies": 1000,
+    "quantity": 1000,
+    "locationId": "loc-1"
+  }
+]

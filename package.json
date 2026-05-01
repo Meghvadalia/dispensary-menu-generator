@@ -16,7 +16,8 @@
     "build": "vite build",
     "start": "node server/index.js",
     "preview": "vite preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "check:normalize": "node server/normalize/check.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
