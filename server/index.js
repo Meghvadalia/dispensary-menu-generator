@@ -95,7 +95,7 @@ app.post("/api/flowhub/locations", async (req, res) => {
         .json({ error: "Failed to fetch locations", details });
     }
     const body = await r.json();
-    const data = Array.isArray(body?.data) ? body.data : [];
+    const data = (Array.isArray(body?.data) ? body.data : []).filter(Boolean);
     const locations = data.map((loc) => ({
       locationId: loc.locationId,
       locationName: loc.locationName,
