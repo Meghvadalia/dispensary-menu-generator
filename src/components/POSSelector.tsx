@@ -17,9 +17,9 @@ const posOptions = [
   {
     id: "flowhub",
     name: "Flowhub",
-    description: "Coming soon",
+    description: "Cannabis retail POS system",
     logoUrl: "https://virtualbudz.com/lovable-uploads/60bd35a3-9aa5-485b-a0bd-44bac5265bc5.png",
-    available: false,
+    available: true,
   },
   {
     id: "treez",
