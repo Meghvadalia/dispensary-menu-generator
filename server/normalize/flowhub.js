@@ -10,9 +10,11 @@ const STRAIN_MAP = new Map([
 ]);
 
 function mapStrain(raw) {
-  if (!raw) return undefined;
-  const v = String(raw).trim().toLowerCase();
-  return STRAIN_MAP.get(v) ?? String(raw).trim();
+  if (raw === undefined || raw === null) return undefined;
+  const trimmed = String(raw).trim();
+  if (!trimmed) return undefined;
+  const v = trimmed.toLowerCase();
+  return STRAIN_MAP.get(v) ?? trimmed;
 }
 
 function formatCannabinoid(arr, name, preferMg) {

@@ -58,5 +58,25 @@
     "postTaxPriceInPennies": 1000,
     "quantity": 1000,
     "locationId": "loc-1"
+  },
+  {
+    "brand": "Wellness Co",
+    "cannabinoidInformation": [
+      { "name": "thc", "lowerRange": 200, "upperRange": 200, "unitOfMeasure": "mg", "unitOfMeasureToGramsMultiplier": "1000" },
+      { "name": "cbd", "lowerRange": 600, "upperRange": 600, "unitOfMeasure": "mg", "unitOfMeasureToGramsMultiplier": "1000" }
+    ],
+    "category": "Tinctures",
+    "speciesName": "Limited Edition Holiday Drop",
+    "productId": "p-tincture",
+    "variantId": "v-tincture",
+    "productName": "1:3 Tincture 1fl oz",
+    "productDescription": "Balanced tincture.",
+    "productPictureURL": null,
+    "productUnitOfMeasure": "fluidounces",
+    "productWeight": 1,
+    "priceInMinorUnits": 6000,
+    "postTaxPriceInPennies": 6000,
+    "quantity": 30,
+    "locationId": "loc-1"
   }
 ]

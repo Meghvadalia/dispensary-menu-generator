@@ -101,6 +101,16 @@ function assertMenuItem(item, label) {
   assert.equal(items[2].imageUrl, 'https://example.com/gummies.jpg');
   assert.equal(items[2].price, 10);
 
+  // Golden: row 3 — tincture, fluidounces UOM, strain passthrough fallback for unmapped value
+  assert.equal(items[3].id, 'v-tincture');
+  assert.equal(items[3].category, 'Tinctures');
+  assert.equal(items[3].thc, '200mg');
+  assert.equal(items[3].cbd, '600mg');
+  assert.equal(items[3].strain, 'Limited Edition Holiday Drop');
+  assert.equal(items[3].weight, '1fl oz');
+  assert.equal(items[3].price, 60);
+  assert.equal(items[3].imageUrl, undefined);
+
   console.log(`✓ flowhub: ${items.length} rows passed`);
 }
 
