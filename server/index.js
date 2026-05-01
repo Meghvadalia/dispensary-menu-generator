@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { existsSync } from "fs";
 import { normalizeDutchieItem } from "./normalize/dutchie.js";
+import { normalizeFlowhubItem } from "./normalize/flowhub.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -105,6 +106,43 @@ app.post("/api/flowhub/locations", async (req, res) => {
       },
     }));
     return res.json({ locations });
+  } catch (e) {
+    return res.status(502).json({ error: "Network error", details: e?.message });
+  }
+});
+
+// POST /api/flowhub/menu  { clientId, apiKey, locationId } -> { menu }
+app.post("/api/flowhub/menu", async (req, res) => {
+  const clientId = String(req.body?.clientId || "").trim();
+  const apiKey = String(req.body?.apiKey || "").trim();
+  const locationId = String(req.body?.locationId || "").trim();
+  if (!clientId || !apiKey || !locationId) {
+    return res
+      .status(400)
+      .json({ error: "Missing clientId, apiKey, or locationId" });
+  }
+
+  try {
+    const r = await fetch(`${FLOWHUB_BASE}/v0/inventoryNonZero`, {
+      method: "GET",
+      headers: { clientId, key: apiKey, Accept: "application/json" },
+    });
+    if (r.status === 401) {
+      return res.status(401).json({ error: "Invalid Flowhub credentials" });
+    }
+    if (!r.ok) {
+      const details = await r.text().catch(() => "");
+      return res
+        .status(r.status)
+        .json({ error: "Failed to fetch inventory", details });
+    }
+    const body = await r.json();
+    const data = Array.isArray(body?.data) ? body.data : [];
+    const filtered = data.filter(
+      (i) => i?.locationId === locationId && (i?.quantity ?? 0) > 0,
+    );
+    const menu = filtered.map(normalizeFlowhubItem);
+    return res.json({ menu });
   } catch (e) {
     return res.status(502).json({ error: "Network error", details: e?.message });
   }
