@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import { existsSync } from "fs";
+import { normalizeDutchieItem } from "./normalize/dutchie.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -61,7 +62,9 @@ app.post("/api/dutchie/menu", async (req, res) => {
         .status(r.status)
         .json({ error: "Failed to fetch inventory", details });
     }
-    const menu = await r.json();
+    const raw = await r.json();
+    const rawArray = Array.isArray(raw) ? raw : Array.isArray(raw?.data) ? raw.data : [];
+    const menu = rawArray.map(normalizeDutchieItem);
     return res.json({ menu });
   } catch (e) {
     return res.status(502).json({ error: "Network error", details: e?.message });
