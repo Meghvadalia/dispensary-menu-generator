@@ -63,8 +63,8 @@ app.post("/api/dutchie/menu", async (req, res) => {
         .json({ error: "Failed to fetch inventory", details });
     }
     const raw = await r.json();
-    const rawArray = Array.isArray(raw) ? raw : Array.isArray(raw?.data) ? raw.data : [];
-    const menu = rawArray.map(normalizeDutchieItem);
+    const rawArray = Array.isArray(raw) ? raw : [];
+    const menu = rawArray.filter(Boolean).map(normalizeDutchieItem);
     return res.json({ menu });
   } catch (e) {
     return res.status(502).json({ error: "Network error", details: e?.message });
