@@ -81,7 +81,10 @@ export function ConnectAccount({ posId, posName, onConnected, isDark = false }: 
         if (!r.ok || !data?.authCode) {
           throw new Error(data?.error || `Request failed (${r.status})`);
         }
-        // Best-effort whoami to pre-fill the store name. Failure is non-fatal.
+        // /api/dutchie/auth is now a local base64 encode (no network), so the
+        // first real key-validation happens here. A 401 means the key is bad
+        // and is surfaced as an auth failure. Other whoami failures are
+        // non-fatal — the store-name pre-fill is best-effort.
         let defaultStoreName: string | undefined;
         try {
           const wr = await fetch("/api/dutchie/whoami", {
@@ -89,13 +92,20 @@ export function ConnectAccount({ posId, posName, onConnected, isDark = false }: 
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ authCode: data.authCode }),
           });
+          if (wr.status === 401) {
+            throw new Error("Invalid Dutchie credentials");
+          }
           if (wr.ok) {
             const wbody = await wr.json().catch(() => ({}));
             defaultStoreName =
               wbody?.locationName ?? wbody?.doingBusinessAs ?? undefined;
           }
-        } catch {
-          /* whoami is best-effort; ignore failures */
+        } catch (whoamiErr) {
+          // Re-throw 401 so the outer catch shows the auth-error toast.
+          // Swallow other errors (network, vendor 5xx) — pre-fill is optional.
+          if (whoamiErr instanceof Error && whoamiErr.message === "Invalid Dutchie credentials") {
+            throw whoamiErr;
+          }
         }
         setStage("connected");
         toast.success(`Successfully authenticated with ${posName}!`);

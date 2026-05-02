@@ -16,28 +16,20 @@ app.disable("x-powered-by");
 app.use(express.json({ limit: "1mb" }));
 
 // POST /api/dutchie/auth   { apiKey } -> { authCode }
-app.post("/api/dutchie/auth", async (req, res) => {
+//
+// Dutchie uses HTTP Basic auth where the API key acts as the username with an
+// empty password — i.e. `Authorization: Basic base64(apiKey + ':')`. We compute
+// that locally instead of round-tripping to /util/AuthorizationHeader/{key},
+// which exists for legacy reasons (Swagger pages that couldn't accept raw keys)
+// and is just a remote base64 encoder. The actual key validation happens on the
+// next call (e.g. /whoami in the connect flow), which surfaces a 401 to the UI.
+app.post("/api/dutchie/auth", (req, res) => {
   const apiKey = String(req.body?.apiKey || "").trim();
   if (!apiKey) {
     return res.status(400).json({ error: "Missing apiKey" });
   }
-
-  try {
-    const r = await fetch(
-      `${DUTCHIE_BASE}/util/AuthorizationHeader/${encodeURIComponent(apiKey)}`,
-      { method: "GET", headers: { Accept: "application/json" } }
-    );
-    if (!r.ok) {
-      return res
-        .status(r.status)
-        .json({ error: "Failed to authenticate with Dutchie" });
-    }
-    let authCode = (await r.text()).replace(/^["']+|["']+$/g, "").trim();
-    if (authCode.startsWith("Basic ")) authCode = authCode.slice(6).trim();
-    return res.json({ authCode });
-  } catch (e) {
-    return res.status(502).json({ error: "Network error", details: e?.message });
-  }
+  const authCode = Buffer.from(`${apiKey}:`, "utf8").toString("base64");
+  return res.json({ authCode });
 });
 
 // POST /api/dutchie/whoami   { authCode } -> { locationName, doingBusinessAs, lspName, city, state }

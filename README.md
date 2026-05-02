@@ -62,7 +62,7 @@ The Express server exposes a small set of endpoints, called only by your local b
 
 | Endpoint                          | What it does                                                                                                     |
 |-----------------------------------|------------------------------------------------------------------------------------------------------------------|
-| `POST /api/dutchie/auth`          | Exchanges your raw API key for a Basic auth token via `GET /util/AuthorizationHeader/{key}`                      |
+| `POST /api/dutchie/auth`          | Encodes your API key into a Basic auth token locally — `base64(key + ':')`. Validation happens at first real call (`/whoami`). |
 | `POST /api/dutchie/whoami`        | Resolves the store name and address via `GET /whoami` (used to pre-fill the customize step)                      |
 | `POST /api/dutchie/menu`          | Fetches Dutchie inventory and normalizes each row to the unified `MenuItem` shape                                |
 | `POST /api/flowhub/locations`     | Lists locations under your Flowhub `clientId` via `GET /v0/clientsLocations` (only `locationId`/`name`/`address` returned) |
@@ -239,11 +239,12 @@ Run `npm run check:normalize` to exercise both POS normalizers against the fixtu
 Something's already on 5173 or 3001. Kill it, or set `PORT=4001 npm run dev` to use a different proxy port.
 
 **Dutchie authentication fails**
-- Confirm the key works by curling Dutchie directly:
+- Confirm the key works by hitting `/whoami` (the first real call we make after encoding):
   ```bash
-  curl https://api.pos.dutchie.com/util/AuthorizationHeader/YOUR_KEY
+  AUTH=$(printf 'YOUR_KEY:' | base64)
+  curl -H "Authorization: Basic $AUTH" https://api.pos.dutchie.com/whoami
   ```
-  A successful response is a base64 string. Anything else means the key is invalid.
+  A successful response is a JSON object with `locationName`, `lspName`, etc. A `401 Unauthorized` means the key is invalid.
 - Check the proxy console for the actual upstream status code.
 
 **Flowhub authentication fails**
