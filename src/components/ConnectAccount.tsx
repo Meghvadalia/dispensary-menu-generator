@@ -81,9 +81,25 @@ export function ConnectAccount({ posId, posName, onConnected, isDark = false }: 
         if (!r.ok || !data?.authCode) {
           throw new Error(data?.error || `Request failed (${r.status})`);
         }
+        // Best-effort whoami to pre-fill the store name. Failure is non-fatal.
+        let defaultStoreName: string | undefined;
+        try {
+          const wr = await fetch("/api/dutchie/whoami", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ authCode: data.authCode }),
+          });
+          if (wr.ok) {
+            const wbody = await wr.json().catch(() => ({}));
+            defaultStoreName =
+              wbody?.locationName ?? wbody?.doingBusinessAs ?? undefined;
+          }
+        } catch {
+          /* whoami is best-effort; ignore failures */
+        }
         setStage("connected");
         toast.success(`Successfully authenticated with ${posName}!`);
-        onConnected({ pos: "dutchie", authCode: data.authCode });
+        onConnected({ pos: "dutchie", authCode: data.authCode, defaultStoreName });
       } else if (config.flow === "flowhub-location-picker") {
         let r: Response;
         try {
@@ -119,6 +135,7 @@ export function ConnectAccount({ posId, posName, onConnected, isDark = false }: 
             apiKey: values.apiKey.trim(),
             locationId: loc.locationId,
             locationName: loc.locationName,
+            defaultStoreName: loc.locationName,
           });
           return;
         }
@@ -152,6 +169,7 @@ export function ConnectAccount({ posId, posName, onConnected, isDark = false }: 
       apiKey: values.apiKey.trim(),
       locationId: loc.locationId,
       locationName: loc.locationName,
+      defaultStoreName: loc.locationName,
     });
   }
 

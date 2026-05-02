@@ -40,6 +40,40 @@ app.post("/api/dutchie/auth", async (req, res) => {
   }
 });
 
+// POST /api/dutchie/whoami   { authCode } -> { locationName, doingBusinessAs, lspName, city, state }
+app.post("/api/dutchie/whoami", async (req, res) => {
+  const authCode = String(req.body?.authCode || "").trim();
+  if (!authCode) {
+    return res.status(400).json({ error: "Missing authCode" });
+  }
+
+  try {
+    const r = await fetch(`${DUTCHIE_BASE}/whoami`, {
+      method: "GET",
+      headers: { Authorization: `Basic ${authCode}`, Accept: "application/json" },
+    });
+    if (r.status === 401) {
+      return res.status(401).json({ error: "Invalid Dutchie credentials" });
+    }
+    if (!r.ok) {
+      const details = await r.text().catch(() => "");
+      return res
+        .status(r.status)
+        .json({ error: "Failed to fetch whoami", details });
+    }
+    const body = await r.json();
+    return res.json({
+      locationName: body?.locationName ?? null,
+      doingBusinessAs: body?.doingBusinessAs ?? null,
+      lspName: body?.lspName ?? null,
+      city: body?.city ?? null,
+      state: body?.state ?? null,
+    });
+  } catch (e) {
+    return res.status(502).json({ error: "Network error", details: e?.message });
+  }
+});
+
 // POST /api/dutchie/menu   { authCode } -> { menu }
 app.post("/api/dutchie/menu", async (req, res) => {
   const authCode = String(req.body?.authCode || "").trim();

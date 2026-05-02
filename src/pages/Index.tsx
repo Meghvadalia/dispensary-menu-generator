@@ -34,6 +34,10 @@ const Index = () => {
   const handleConnected = (conn: Connection) => {
     setConnection(conn);
     setCurrentStep(3);
+    if (!storeName && conn.defaultStoreName) {
+      setStoreName(conn.defaultStoreName);
+      setCurrentStep(4);
+    }
   };
 
   const handleLogoChange = (newLogo: string | null, colors: string[]) => {
