@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { POSSelector } from "@/components/POSSelector";
-import { APIKeyInput } from "@/components/APIKeyInput";
+import { ConnectAccount } from "@/components/ConnectAccount";
 import { MenuGenerator } from "@/components/MenuGenerator";
 import { LogoUploader } from "@/components/LogoUploader";
+import type { Connection } from "@/types/connection";
 import { ChevronRight, Check, Moon, Sun } from "lucide-react";
 import dopecastLogoWhite from "@/assets/dopecast-logo-white.png";
 import dopecastLogoGradient from "@/assets/dopecast-logo-gradient.png";
 
 const Index = () => {
   const [selectedPOS, setSelectedPOS] = useState<string>("");
-  const [authCode, setAuthCode] = useState<string>("");
+  const [connection, setConnection] = useState<Connection | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [logo, setLogo] = useState<string | null>(null);
   const [brandColors, setBrandColors] = useState<string[]>([]);
@@ -30,8 +31,8 @@ const Index = () => {
     setCurrentStep(2);
   };
 
-  const handleAuthenticated = (code: string) => {
-    setAuthCode(code);
+  const handleConnected = (conn: Connection) => {
+    setConnection(conn);
     setCurrentStep(3);
   };
 
@@ -42,7 +43,7 @@ const Index = () => {
 
   const steps = [
     { number: 1, title: "Select POS", completed: selectedPOS !== "" },
-    { number: 2, title: "Connect", completed: authCode !== "" },
+    { number: 2, title: "Connect", completed: connection !== null },
     { number: 3, title: "Customize", completed: storeName !== "" },
     { number: 4, title: "Generate", completed: false },
   ];
@@ -154,38 +155,39 @@ const Index = () => {
             <POSSelector selected={selectedPOS} onSelect={handlePOSSelect} isDark={isDark} />
           </section>
 
-          {/* Step 2: API Key Input */}
+          {/* Step 2: Connect Account */}
           {selectedPOS && (
             <section className="animate-slide-up no-print">
               <div className="flex items-center gap-3 mb-6">
                 <span
                   className={`
-                  w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm
-                  ${
-                    authCode
-                      ? isDark
-                        ? "bg-gray-600 text-white"
-                        : "bg-gray-700 text-white"
-                      : isDark
-                        ? "bg-[#222] text-gray-400 border border-[#333]"
-                        : "bg-gray-200 text-gray-500 border border-gray-300"
-                  }
-                `}
+                    w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm
+                    ${
+                      connection
+                        ? isDark
+                          ? "bg-gray-600 text-white"
+                          : "bg-gray-700 text-white"
+                        : isDark
+                          ? "bg-[#222] text-gray-400 border border-[#333]"
+                          : "bg-gray-200 text-gray-500 border border-gray-300"
+                    }
+                  `}
                 >
-                  {authCode ? <Check className="w-4 h-4" /> : "2"}
+                  {connection ? <Check className="w-4 h-4" /> : "2"}
                 </span>
                 <h2 className="text-2xl font-semibold">Connect Your Account</h2>
               </div>
-              <APIKeyInput
+              <ConnectAccount
+                posId={selectedPOS as "dutchie" | "flowhub"}
                 posName={selectedPOS.charAt(0).toUpperCase() + selectedPOS.slice(1)}
-                onAuthenticated={handleAuthenticated}
+                onConnected={handleConnected}
                 isDark={isDark}
               />
             </section>
           )}
 
           {/* Step 3: Logo & Store Name */}
-          {authCode && (
+          {connection && (
             <section className="animate-slide-up no-print">
               <div className="flex items-center gap-3 mb-6">
                 <span
@@ -219,7 +221,7 @@ const Index = () => {
           )}
 
           {/* Step 4: Menu Generator */}
-          {authCode && storeName && (
+          {connection && storeName && (
             <section className="animate-slide-up">
               <div className="flex items-center gap-3 mb-6 no-print">
                 <span
@@ -230,12 +232,12 @@ const Index = () => {
                 <h2 className="text-2xl font-semibold">Generate Your Menu</h2>
               </div>
               <MenuGenerator
-                authCode={authCode}
+                connection={connection}
                 logo={logo}
                 brandColors={brandColors}
                 storeName={storeName}
                 onAuthInvalid={() => {
-                  setAuthCode("");
+                  setConnection(null);
                   setCurrentStep(2);
                 }}
                 isDark={isDark}
