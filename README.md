@@ -4,6 +4,8 @@
 
 Generate beautiful, print-ready dispensary menus directly from your POS inventory. Supports **Dutchie** and **Flowhub** today. Bring your own credentials, runs locally on your machine — your keys never leave your computer except to talk to your POS provider.
 
+> **Don't want to run anything locally?** A hosted version is live at **[printablemenu.dopecast.net](https://printablemenu.dopecast.net/)** — same code, same flow, no install. The trade-off: your credentials transit DopeCast's infrastructure on the way to the POS instead of staying entirely on your machine. Pick whichever matches your trust posture.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Built for](https://img.shields.io/badge/Built%20for-Dispensaries-7c3aed)](https://www.dopecast.net/)
 [![Node](https://img.shields.io/badge/Node-18%2B-339933)](https://nodejs.org/)
